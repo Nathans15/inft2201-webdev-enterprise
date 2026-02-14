@@ -8,6 +8,13 @@ services:
      - ./html:/var/www/html
     depends_on:
      - db_prod
+    environment:
+      DB_USER: user
+      DB_PASS: pass
+      DB_PROD_HOST: db_prod
+      DB_TEST_HOST: db_test
+      DB_PROD_NAME: prod
+      DB_TEST_NAME: test
     networks:
      - inft2201_network
     
@@ -24,6 +31,17 @@ services:
      - ./init-prod:/docker-entrypoint-initdb.d 
     networks:
      - inft2201_network 
+
+  db_test:
+    image: postgres:18-bookworm
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5433:5432"
+    networks:
+      - inft2201_network
 
 networks:
   inft2201_network:
